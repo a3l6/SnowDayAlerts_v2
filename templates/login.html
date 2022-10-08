@@ -22,8 +22,6 @@ Author URL: http://w3layouts.com
     <!-- fontawesome v5 -->
     <script src="https://kit.fontawesome.com/af562a2a63.js" crossorigin="anonymous"></script>
 
-    <!-- Javascript -->
-
 </head>
 
 <body>
@@ -32,7 +30,7 @@ Author URL: http://w3layouts.com
         <div class="container">
             <!-- logo -->
             <div class="logo">
-                <a class="brand-logo" href="index.html">Login Or Signup</a>
+                <a class="brand-logo" href="/">Login</a>
             </div>
             <!-- //logo -->
             <div class="forms-grid">
@@ -46,75 +44,48 @@ Author URL: http://w3layouts.com
                     <form action="#" method="post" class="login-form">
                         <fieldset>
                             <div class="form">
-                                <div class="form-row">
-                                    <span class="fas fa-user"></span>
-                                    <label class="form-label" for="input">Name</label>
-                                    <input type="text" class="form-text">
-                                </div>
-                                <div class="form-row">
-                                    <span class="fas fa-eye"></span>
-                                    <label class="form-label" for="input">Password</label>
-                                    <script src="../static/login.js"></script>
-                                    <input id="hidebutton" type="password" class="form-text" onclick="hidden()">
-                                </div>
-                                <div class="form-row bottom">
-                                    <div class="form-check">
-                                        <input type="checkbox" id="remenber" name="remenber" value="remenber">
-                                        <label for="remenber"> Remember me?</label>
+                                <form action="#" method="post"></form>
+                                    <div class="form-row">
+                                        <span class="fas fa-user"></span>
+                                        <label class="form-label" for="input">Phone #</label>
+                                        <input type="text" name="loginphone" class="form-text">
                                     </div>
-                                    <a href="#url" class="forgot">Forgot Password?</a>
-                                </div>
-                                <div class="form-row button-login">
-                                    <button class="btn btn-login">Login <span
-                                            class="fas fa-arrow-right"></span></button>
-                                </div>
+                                    <div class="form-row">
+                                        <!--<span class="fas fa-eye"></span> -->
+                                        <button type="button" id="eye" class="fas fa-eye" style="padding: 0; border: none; background: none;"> </button>
+                                        <label class="form-label" for="input">Password</label>
+                                        
+                                        <input id="pwd" name="password" type="password" class="form-text">
+                                    </div>
+                                    <div class="form-row bottom">
+                                        <div class="form-check">
+                                            <input type="checkbox" id="remember" name="remember" value="remember">
+                                            <label for="remember"> Remember me?</label>
+                                        </div>
+                                        <a href="#url" class="forgot">Forgot Password?</a>
+                                    </div>
+                                    
+                                    <div class="copy-right" style="margin-top: 3%;">
+                                        <p>
+                                            Need an account?
+                                            <a href="{{ url_for('signup') }}"> Signup</a>
+
+                                        </p>
+
+                                    </div>
+
+                                    <div class="form-row button-login" style="display: flex;
+                                    justify-content: center;">
+                                        <button class="btn btn-login">Login <span
+                                                class="fas fa-arrow-right"></span></button>
+                                    </div>
+                                </form>
                             </div>
                         </fieldset>
                     </form>
                 </div>
                 <!-- //login -->
-
-                <!-- register -->
-                <div class="register">
-                    <span class="fas fa-user-circle"></span>
-                    <strong>Create account!</strong>
-                    <formaction="#" method="post" class="register-form">
-                        <fieldset>
-                            <div class="form">
-                                <div class="form-row">
-                                    <span class="fas fa-user"></span>
-                                    <label class="form-label" for="input">Name</label>
-                                    <input type="text" class="form-text">
-                                </div>
-                                <div class="form-row">
-                                    <span class="fas fa-envelope"></span>
-                                    <label class="form-label" for="input">Phone #</label>
-                                    <input type="phonenum" class="form-text">
-                                </div>
-                                <div class="form-row">
-                                    <span class="fas fa-lock"></span>
-                                    <label class="form-label" for="input">Password</label>
-                                    <input type="password" class="form-text">
-                                </div>
-                                <div class="form-row button-login">
-                                    <button class="btn btn-login">Create <span
-                                            class="fas fa-arrow-right"></span></button>
-                                </div>
-                            </div>
-                        </fieldset>
-                        </form>
-
-                        <span class="create-account">Or create account using social media!</span>
-
-                        <div class="social-media">
-                            <a href="#facebook" class="fb"><span class="fab fa-facebook"></span></a>
-                            <a href="#twitter" class="tw"><span class="fab fa-twitter"></span></a>
-                            <a href="#pinterest" class="pi"><span class="fab fa-pinterest"></span></a>
-                        </div>
-                </div>
-                <!-- //register -->
             </div>
-
             <!-- copyright -->
             <div class="copy-right">
                 <p>&copy; 2020 Minimal Forms. All rights reserved | Design by <a href="http://w3layouts.com/"
@@ -123,7 +94,8 @@ Author URL: http://w3layouts.com
             <!-- //copyright -->
         </div>
     </section>
-
+    
+    <script src="../static/login.js"></script>
 </body>
 
 </html>

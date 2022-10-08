@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Landing Page</title>
+    <title>Snow Day Alerts</title>
     <meta property="og:title" content="Landing Page" />
 
     <style data-tag="reset-style-sheet">
@@ -43,6 +43,15 @@
     <link rel="stylesheet" href="../static/style.css" />
   </head>
   <body>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for msg in messages %}
+          <p>{{msg}}</p>
+        {% endfor %}
+      {% endif %}
+    {% endwith%}
+
     <div>
       <link href="../static/home.css" rel="stylesheet" />
 
@@ -281,6 +290,7 @@
         </div>
       </div>
     </div>
+    
     <script src="https://unpkg.com/@teleporthq/teleport-custom-scripts"></script>
   </body>
 </html>
