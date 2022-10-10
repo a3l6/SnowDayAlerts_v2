@@ -1,4 +1,6 @@
-user : phone
-pass: encryped pass
-last login: date
-zone : zone location
+{
+    "phone": "1800262001",
+    "name": "John Higgins",
+    "zone": "North",
+    "password": "password"
+}

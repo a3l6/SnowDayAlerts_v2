@@ -9,7 +9,11 @@ app.permanent_session_lifetime = timedelta(days=30)
 
 @app.route('/')
 def home():
-  return render_template("index.html")
+  try:
+    if session["loggedin"]:
+      return render_template("index.html", logged_in=session["loggedin"])
+  except KeyError:
+    return render_template("index.html", logged_in=False)
 
 @app.route('/login', methods=["POST", "GET"])
 def login():
@@ -17,25 +21,31 @@ def login():
     phone = request.form["loginphone"]
     password = request.form["password"].encode("utf-8")
     rememberMe = request.form.get("remember")
+    
     if databaseHandler.auth(phone, password):
       session["phone"] = phone
       session["password"] = password
+      session["loggedin"] = True
       if rememberMe != None:
         session.permanent = True
       return redirect(url_for("user", method="login"))
     else:
-      flash("Invalid Credentials", "Warning")
+      flash("Invalid Credentials", "Warning")     # CSS styling added on <p> tag 
       return render_template("login.html")
   else:
     return render_template("login.html")
 
 @app.route("/signup", methods=["POST", "GET"])
 def signup():
-  phone = request.form["registerphone"]
-  zone = request.form["zone"]
-  password = request.form["password"]
-  return render_template("signup.html")
+  if request.method == "POST":
+    phone = request.form["registerphone"]
+    zone = request.form["zone"]
+    password = request.form["password"]
+  else:
+    return render_template("signup.html")
 
+
+# possibly useless
 @app.route("/handleuser")
 def user(method="login"):
   if method == "login":
@@ -52,12 +62,15 @@ def user(method="login"):
 
 @app.route("/logout")
 def logout():
+  # remove user data
   session.pop("password", None)
   session.pop("phone", None)
   session.pop("rememberMe", None)
+  session.pop("loggedin", None)
   for i in session:
     print(i)
   flash("You have been logged out!", "info")
+  # return home
   return redirect(url_for("home"))
 
 

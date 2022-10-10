@@ -41,6 +41,7 @@
       }
     </style>
     <link rel="stylesheet" href="../static/style.css" />
+    <link rel="stylesheet" href="../static/home2.css">
   </head>
   <body>
 
@@ -78,10 +79,28 @@
                 <a href="#process" class="home-link1 anchor">Explore</a>
               </div>
             </div>
-            <div class="home-right-side">
-              <a class="home-cta-btn button anchor" href="{{ url_for('login') }}" >Login</a>
-              
-            </div>
+            {% if not logged_in %}
+              <div class="home-right-side">
+                <a class="home-cta-btn button anchor" href="{{ url_for('login') }}" >Login</a>
+                
+              </div>
+
+            {% else %}
+            <!--
+              <div class="home-right-side">
+                <span class="home-link anchor">Welcome back</span>
+                <a class="home-cta-btn button anchor" href="{{url_for('logout') }}">Logout</a>
+              </div> -->
+
+              <div class="dropdown">
+                <button onclick="myFunction()" class="dropbtn">Dropdown</button>
+                <div id="myDropdown" class="dropdown-content">
+                  <a href="#">Link 1</a>
+                  <a href="#">Link 2</a>
+                  <a href="#">Link 3</a>
+                </div>
+              </div>
+            {% endif %}
             <div data-type="MobileMenu" class="home-mobile-menu">
               <div class="home-container1">
                 <img
@@ -290,7 +309,7 @@
         </div>
       </div>
     </div>
-    
+    <script src="../static/home.js"></script>
     <script src="https://unpkg.com/@teleporthq/teleport-custom-scripts"></script>
   </body>
 </html>

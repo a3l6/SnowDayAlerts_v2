@@ -11,16 +11,21 @@ collection = db["users"]
 
 salt = bcrypt.gensalt()
 
+# return True when user exists and password is correct
 def auth(phone: str, password: bytes):
-    #find user by phone num
-    user = collection.find_one({"phone": phone})
-    # remove first 2 letters and last letter because password stored as b'$2b$12$yIdSkUl3U1GJm.wHPe9FfOoycD9B8C1v9cyUIKiZmRjDD8N8gSPS6'
-    # encode to check
-    hashedpw = user["password"][2:-1].encode("utf-8")
-    if bcrypt.checkpw(password, hashedpw):
-        return True
-    else:
-        return False
+    try:
+        #find user by phone num
+        user = collection.find_one({"phone": phone})
+        # remove first 2 letters and last letter because password stored as b'$2b$12$yIdSkUl3U1GJm.wHPe9FfOoycD9B8C1v9cyUIKiZmRjDD8N8gSPS6'
+        # encode to check
+        hashedpw = user["password"][2:-1].encode("utf-8")
+        if bcrypt.checkpw(password, hashedpw):
+            return True
+        else:
+            return False
+    except TypeError:
+        print("User gave invalid phone number")
+
 
 # get email
 # store email
