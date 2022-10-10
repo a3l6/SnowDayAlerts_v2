@@ -1,6 +1,7 @@
 from flask import *
 import os
 from datetime import timedelta
+import databaseHandler
 
 app = Flask(__name__)
 app.secret_key = os.environ.get("FLASK_SECRET_KEY")
@@ -14,14 +15,17 @@ def home():
 def login():
   if request.method == "POST":
     phone = request.form["loginphone"]
-    password = request.form["password"]
+    password = request.form["password"].encode("utf-8")
     rememberMe = request.form.get("remember")
-    session["phone"] = phone
-    session["password"] = password
-    session["rememberMe"] = rememberMe
-    if session != None:
-      session.permanent = True
-    return redirect(url_for("user", method="login"))
+    if databaseHandler.auth(phone, password):
+      session["phone"] = phone
+      session["password"] = password
+      if rememberMe != None:
+        session.permanent = True
+      return redirect(url_for("user", method="login"))
+    else:
+      flash("Invalid Credentials", "Warning")
+      return render_template("login.html")
   else:
     return render_template("login.html")
 

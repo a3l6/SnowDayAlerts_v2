@@ -3,10 +3,10 @@ client = pymongo.MongoClient("localhost", 27017)
 db = client.local
 
 userinfo = [
-    {"name": "Emilio Menddsdsdsdoza",
+    {"phone": "18002sdsds62001",
     "age": 11215,
     "gender": "mdfsfsdfale",
-    "phone": "18002sdsds62001",
+    "name": "Emilio Menddsdsdsdoza",
     "email": "noreply@sdsdsdgmail.com"}
 ]
 db.users.insert_many(userinfo, ordered=False)
