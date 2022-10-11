@@ -5,9 +5,11 @@ import string
 
 # connect to mongo cluster 
 mongopass = os.environ.get("MONGO_SNOW_DAY_PASSWORD")  
-with open("C:\Important Keys\mongodb.txt") as f: 
-    cluster = pymongo.MongoClient(f"mongodb+srv://admin:{f.read()}@snowdayalertscluster.olpm162.mongodb.net/?retryWrites=true&w=majority", 27017)
-db = cluster["usercluster"]
+"""with open("C:/Users/707011/Desktop/mongodb.txt") as f: 
+    cluster = pymongo.MongoClient(f"mongodb+srv://admin:{f.read()}@snowdayalertscluster.olpm162.mongodb.net/?retryWrites=true&w=majority", 27017)"""
+client = pymongo.MongoClient("localhost", 27017)
+db = client.local
+#db = cluster["usercluster"]
 collection = db["users"]
 
 salt = bcrypt.gensalt()
@@ -47,7 +49,7 @@ def create(name: str, phone: str, zone: str, password: str):        # Return wit
         password = bcrypt.hashpw(password.encode("utf-8"), salt)
         user = [{
             "phone": phone,
-            "name": name,
+            "name": name.title(),
             "zone": zone,
             "password": str(password)
         }]
@@ -56,9 +58,13 @@ def create(name: str, phone: str, zone: str, password: str):        # Return wit
     else:
         return False
 
-def getuser(phone: str):     # Returns a python dict of user info
+def getuser(phone: str, includepass: bool):     # Returns a python dict of user info
     user = collection.find_one({"phone": phone})
     user["_id"] = None      # Replace mongodb Objectid() with None to allow to become iterable
     user.pop("_id")
-    user.pop("password")    # Remove storing of password for security
+    if not includepass:
+        user.pop("password")    # Remove storing of password for security
     return user
+
+def delete(toRemove):
+    collection.find_one_and_delete({'phone': toRemove})

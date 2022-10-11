@@ -1,4 +1,5 @@
 from tkinter import TRUE
+from xml.etree.ElementInclude import include
 from xmlrpc.client import ResponseError
 from flask import *
 import os
@@ -6,7 +7,9 @@ from datetime import timedelta
 import databaseHandler
 
 app = Flask(__name__)
-app.secret_key = os.environ.get("FLASK_SECRET_KEY")
+#app.secret_key = os.environ.get("FLASK_SECRET_KEY")
+with open("C:/Users/707011/Desktop/secret_key.txt") as f:
+  app.secret_key = f.read()
 app.permanent_session_lifetime = timedelta(days=30)
 
 @app.route('/')
@@ -29,11 +32,10 @@ def login():
     
     if databaseHandler.auth(phone, password):
       session["phone"] = phone
-      session["password"] = password
       session["loggedin"] = True
       if rememberMe != None:  # var rememberMe returns either "remember" when its True or None when its False
         session.permanent = True
-      response = databaseHandler.getuser(session["phone"])
+      response = databaseHandler.getuser(session["phone"], includepass=False)
       print(response)
       for key in response:
         session[key] = response[key]
@@ -60,7 +62,6 @@ def signup():
       session["name"] = name
       session["phone"] = phone
       session["zone"] = zone
-      session["password"] = password
       session["loggedin"] = True
 
       flash("Successfully Created Account!", "info")
@@ -80,8 +81,6 @@ def signup():
 @app.route("/logout")
 def logout():
   session.clear()     # remove user data
-  for i in session:
-    print(i)
   flash("You have been logged out!", "info")
   # return home
   return redirect(url_for("home"))
@@ -89,11 +88,23 @@ def logout():
 @app.route("/settings/<number>")
 def settings(number):
   try:
-    user = databaseHandler.getuser(number)
+    user = databaseHandler.getuser(number, includepass=False)
     return render_template("settings.html", user=user)
   except TypeError as e:
     return "404"
 
+@app.route("/deleteuser/<user>")
+def delete(user):
+  try:
+    if session["phone"] == user:
+      remove = databaseHandler.delete(toRemove=user)
+      session.clear()
+      flash("Deleted User!")
+      return redirect(url_for("home"))
+    else:
+      return "Cannot Delete Other Users Profile!"
+  except KeyError:
+    return "Cannot Delete Other Users Profile!"
 
 if __name__ == "__main__":
   app.run(debug=True)
