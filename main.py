@@ -1,4 +1,5 @@
 from tkinter import TRUE
+from xmlrpc.client import ResponseError
 from flask import *
 import os
 from datetime import timedelta
@@ -32,8 +33,12 @@ def login():
       session["loggedin"] = True
       if rememberMe != None:  # var rememberMe returns either "remember" when its True or None when its False
         session.permanent = True
-      session["method"] = "login"
-      return redirect(url_for("user"))
+      response = databaseHandler.getuser(session["phone"])
+      print(response)
+      for key in response:
+        session[key] = response[key]
+      flash("Successful Login!")
+      return redirect(url_for('home'))
     else:
       flash("Invalid Credentials", "Warning")     # CSS styling added on <p> tag 
       return render_template("login.html")
@@ -47,7 +52,6 @@ def signup():
     phone = request.form["registerphone"]
     zone = request.form["zone"]
     password = request.form["registerpassword"]
-    session["method"] = "register"
 
     response = databaseHandler.create(name, phone, zone, password)
 
@@ -73,39 +77,23 @@ def signup():
   else:
     return render_template("signup.html")
 
-
-# possibly useless
-@app.route("/handleuser")
-def user(): 
-  if session["method"] == "login":
-    return f"<h1>Your Phone number is: {phone}</h1>"
-  elif session["method"] == "register":
-    return "registerrte"
-  else:
-    return "What did you do? Method is not login or register"
-
-
 @app.route("/logout")
 def logout():
-  # remove user data
-  print(session)
-  session.pop("password", None)
-  session.pop("phone", None)
-  session.pop("rememberMe", None)
-  session.pop("loggedin", None)
-  session.pop("method", None)
-  session.pop("zone", None)
-  session.pop("name", None)
+  session.clear()     # remove user data
   for i in session:
     print(i)
   flash("You have been logged out!", "info")
   # return home
   return redirect(url_for("home"))
 
-@app.route("/test")
-def test():
-  databaseHandler.create("fdjf", "fjf", "dsfsdf", "dsfsdf")
-  return "hi"
+@app.route("/settings/<number>")
+def settings(number):
+  try:
+    user = databaseHandler.getuser(number)
+    return render_template("settings.html", user=user)
+  except TypeError as e:
+    return "404"
+
 
 if __name__ == "__main__":
   app.run(debug=True)

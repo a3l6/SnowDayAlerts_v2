@@ -19,7 +19,7 @@ def auth(phone: str, password: bytes):
         user = collection.find_one({"phone": phone})
         # remove first 2 letters and last letter because password stored as b'$2b$12$yIdSkUl3U1GJm.wHPe9FfOoycD9B8C1v9cyUIKiZmRjDD8N8gSPS6'
         # encode to check
-        hashedpw = user["password"][2:-1].encode("utf-8")
+        hashedpw = user["password"][2:-1].encode("utf-8")       # Func will throw TypeError when user returns with None
         if bcrypt.checkpw(password, hashedpw):
             return True
         else:
@@ -27,11 +27,6 @@ def auth(phone: str, password: bytes):
     except TypeError:
         print("User gave invalid phone number")
 
-
-# get email
-# store email
-# hash pw
-# store pw
 def create(name: str, phone: str, zone: str, password: str):        # Return with any errors or return True when created and False when already exists
 
     # Make sure all args are valid
@@ -61,10 +56,9 @@ def create(name: str, phone: str, zone: str, password: str):        # Return wit
     else:
         return False
 
-"""
-password = bcrypt.hashpw(b"password", salt)
-userinfo = [
-    {"phone": "18002672001",
-    "password": str(password)}
-]
-db.users.insert_many(userinfo, ordered=False)"""
+def getuser(phone: str):     # Returns a python dict of user info
+    user = collection.find_one({"phone": phone})
+    user["_id"] = None      # Replace mongodb Objectid() with None to allow to become iterable
+    user.pop("_id")
+    user.pop("password")    # Remove storing of password for security
+    return user
