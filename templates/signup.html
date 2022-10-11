@@ -40,38 +40,47 @@ Author URL: http://w3layouts.com
                     <strong>Create account!</strong>
                     <formaction="#" method="post" class="register-form">
                         <fieldset>
-                            <div class="form">
-                                <div class="form-row">
-                                    
-                                    <label class="form-label" for="input">Name</label>
-                                    <input type="text" name="registerphone" class="form-text">
+                            <form action="#" method="post">
+                                <div class="form">
+                                    <div class="form-row">
+                                        
+                                        <label class="form-label" for="input">First Name</label>
+                                        <input type="text" name="name" class="form-text">
+                                    </div>
+                                    <div class="form-row">
+                                        <span class="fas fa-user"></span>
+                                        <label class="form-label" for="input">Phone #</label>
+                                        <input type="text" name="registerphone" class="form-text">
+                                    </div>
+                                    <div class="form-row">
+                                        <span class="fas fa">
+                                            <img src="https://img.icons8.com/ios-filled/25/000000/pointer.png"/>
+                                        </span>
+                                        <label class="form-label" for="input">Zone (<a href="https://www.simcoecountyschoolbus.ca/" target="_blank" rel="noreferrer noopener">See Here</a>)</label>
+                                        <input type="zone" name="zone" class="form-text">
+                                    </div>
+                                    <div class="form-row">
+                                        <span class="fas fa-lock"></span>
+                                        <label class="form-label" for="input">Password</label>
+                                        <input type="password" name="registerpassword" class="form-text">
+                                    </div>
+                                    {% with messages = get_flashed_messages() %}
+                                        {% if messages %}
+                                            {% for msg in messages %}
+                                            <p style="text-align: center; color: red;"><b>{{msg}}</b></p>
+                                            {% endfor %}
+                                        {% endif %}
+                                    {% endwith%}
+                                    <div class="copy-right">
+                                        <p>Already have an account? <a href="{{ url_for('login') }}">Login</a></p>
+                                    </div>
+                                    <div class="form-row button-login" style="display: flex;
+                                    justify-content: center;">
+                                        <button class="btn btn-login">Create <span
+                                                class="fas fa-arrow-right"></span></button>
+                                    </div>
                                 </div>
-                                <div class="form-row">
-                                    <span class="fas fa-user"></span>
-                                    <label class="form-label" for="input">Phone #</label>
-                                    <input type="text" name="registerphone" class="form-text">
-                                </div>
-                                <div class="form-row">
-                                    <span class="fas fa">
-                                        <img src="https://img.icons8.com/ios-filled/25/000000/pointer.png"/>
-                                    </span>
-                                    <label class="form-label" for="input">Zone (<a href="https://www.simcoecountyschoolbus.ca/" target="_blank" rel="noreferrer noopener">See Here</a>)</label>
-                                    <input type="zone" name="zone" class="form-text">
-                                </div>
-                                <div class="form-row">
-                                    <span class="fas fa-lock"></span>
-                                    <label class="form-label" for="input">Password</label>
-                                    <input type="password" name="registerpassword" class="form-text">
-                                </div>
-                                <div class="copy-right">
-                                    <p>Already have an account? <a href="{{ url_for('login') }}">Login</a></p>
-                                </div>
-                                <div class="form-row button-login" style="display: flex;
-                                justify-content: center;">
-                                    <button class="btn btn-login">Create <span
-                                            class="fas fa-arrow-right"></span></button>
-                                </div>
-                            </div>
+                            </form>
                         </fieldset>
                         </form>                        
                 </div>

@@ -1,5 +1,6 @@
 import pymongo
 import os
+import bcrypt
 """client = pymongo.MongoClient("localhost", 27017)
 db = client.local"""
 
@@ -12,8 +13,10 @@ collection = db["users"]
 
 userinfo = [
     {
-        "phone": "7052294272",
-        "password": "b'$2b$12$TBCziv/3H4fs31W.yr3jmeXG2eWIWemA5aHRZOTwYTAh6YC0nvwYy'"
+    "phone": "1800262001",
+    "name": "John Higgins",
+    "zone": "North",
+    "password": str(bcrypt.hashpw(b"password", bcrypt.gensalt()))
     }
 ]
 collection.insert_many(userinfo, ordered=False)

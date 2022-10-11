@@ -1,6 +1,7 @@
 import pymongo
 import os
 import bcrypt
+import string
 
 # connect to mongo cluster 
 mongopass = os.environ.get("MONGO_SNOW_DAY_PASSWORD")  
@@ -31,11 +32,34 @@ def auth(phone: str, password: bytes):
 # store email
 # hash pw
 # store pw
-def create(email: str, password: str):
-    user = [{
-        "phone": phone
+def create(name: str, phone: str, zone: str, password: str):        # Return with any errors or return True when created and False when already exists
 
-    }]
+    # Make sure all args are valid
+
+    for i in name:
+        if i not in string.printable:
+            return "Invalid Name"
+    for i in phone:
+        if i not in "1234567890":
+            return "Invalid Phone Number"
+    if zone.lower() not in ["north", "west", "central", "south", "muskoka"]:
+        return "Invalid Zone"
+    for i in password:
+        if i not in string.printable:
+            return "Invalid Password"
+            
+    if collection.find_one({"phone":  phone}) == None:
+        password = bcrypt.hashpw(password.encode("utf-8"), salt)
+        user = [{
+            "phone": phone,
+            "name": name,
+            "zone": zone,
+            "password": str(password)
+        }]
+        collection.insert_many(user, ordered=False)
+        return True
+    else:
+        return False
 
 """
 password = bcrypt.hashpw(b"password", salt)
