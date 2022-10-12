@@ -16,10 +16,11 @@ app.permanent_session_lifetime = timedelta(days=30)
 def home():
   try:
     if session["loggedin"]:
-      user = {
-        "name": session["name"]
+      client = {
+        "name": session["name"],
+        "phone": session["phone"]
       }
-      return render_template("index.html", logged_in=session["loggedin"], user=user)
+      return render_template("index.html", logged_in=session["loggedin"], user=client)
   except KeyError:
     return render_template("index.html", logged_in=False)
 
@@ -89,15 +90,16 @@ def logout():
 def settings(number):
   try:
     user = databaseHandler.getuser(number, includepass=False)
+    print(user)
     return render_template("settings.html", user=user)
   except TypeError as e:
-    return "404"
+    return e
 
-@app.route("/deleteuser/<user>")
-def delete(user):
+@app.route("/deleteuser/<client>")
+def deleteuser(client):
   try:
-    if session["phone"] == user:
-      remove = databaseHandler.delete(toRemove=user)
+    if session["phone"] == client:
+      databaseHandler.delete(toRemove=client)
       session.clear()
       flash("Deleted User!")
       return redirect(url_for("home"))

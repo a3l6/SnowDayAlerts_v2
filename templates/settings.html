@@ -94,13 +94,14 @@
                 
                   <hr>
                   <div class="form-group">
-                    <label class="d-block text-danger">Delete Account</label>
+                    <a class="d-block text-danger">Delete Account</a>
                     <p class="text-muted font-size-sm">Once you delete your account, there is no going back. Please be certain.</p>
                   </div>
-                  <button class="btn btn-danger" type="button">Delete Account</button>
-                </form>
-
-              </div>    
+                    <a href="{{ url_for('.deleteuser', client=user['phone']) }}">
+                      <button class="btn btn-danger" type="button">Delete Account</button>
+                    </a>
+                  </form>
+                </div>    
               </div>
             </div>
           </div>
