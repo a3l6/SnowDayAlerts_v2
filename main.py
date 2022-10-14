@@ -2,6 +2,10 @@ from flask import *
 import os
 from datetime import timedelta
 import databaseHandler
+import messaging
+import asyncio
+
+asyncio.run(messaging.main())
 
 app = Flask(__name__)
 #app.secret_key = os.environ.get("FLASK_SECRET_KEY")
