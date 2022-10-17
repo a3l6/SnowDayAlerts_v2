@@ -5,11 +5,11 @@ import string
 
 # connect to mongo cluster 
 mongopass = os.environ.get("MONGO_SNOW_DAY_PASSWORD")  
-"""with open("C:/Users/707011/Desktop/mongodb.txt") as f: 
-    cluster = pymongo.MongoClient(f"mongodb+srv://admin:{f.read()}@snowdayalertscluster.olpm162.mongodb.net/?retryWrites=true&w=majority", 27017)"""
-client = pymongo.MongoClient("localhost", 27017)
-db = client.local
-#db = cluster["usercluster"]
+with open("C:/Important Keys/mongouri.txt") as f: 
+    cluster = pymongo.MongoClient(f.read(), 27017)
+#client = pymongo.MongoClient("localhost", 27017)
+#db = client.local
+db = cluster["usercluster"]
 collection = db["users"]
 
 salt = bcrypt.gensalt()

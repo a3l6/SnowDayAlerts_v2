@@ -5,7 +5,7 @@ import databaseHandler
 import messaging
 import asyncio
 
-asyncio.run(messaging.main())
+#asyncio.run(messaging.main())
 
 app = Flask(__name__)
 #app.secret_key = os.environ.get("FLASK_SECRET_KEY")
