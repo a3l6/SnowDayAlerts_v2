@@ -11,6 +11,10 @@ IF "%PARAM%" == "--save" (
     IF "%ARG%" == "-h" (
         git fetch --all
         git reset --hard origin/main
+
+    ) ELSE IF "%ARG%" == "-s" (
+        git fetch --all
+        git reset --hard origin/main
     )
 )
 echo %PARAM%

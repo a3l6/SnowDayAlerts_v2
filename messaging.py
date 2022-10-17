@@ -1,29 +1,28 @@
+from operator import indexOf
 import schedule
 import time
-import asyncio
+from twilio.rest import Client
+from databaseHandler import zoneanduser
+from checker import check
+
+with open("C:/Users/707011/Desktop/twillio_sid.txt") as f:
+    acc_sid = f.read()
+with open("C:/Users/707011/Desktop/twillio_auth.txt") as f:
+    acc_auth = f.read()
+client = Client(acc_sid, acc_auth)
+
 
 def sendMessages():
-    print("I'm working...")
-
-async def main():
-    schedule.every().day.at("10:30").do(sendMessages)
-
+    usersinfo = zoneanduser()
+    for user in usersinfo:
+        message = client.messages.create(
+                                body= check(user["zone"]),
+                                from_='+17059998264',
+                                to=user["phone"]
+                            )
+def main():
+    #schedule.every().day.at("10:30").do(sendMessages())
+    sendMessages()
     while 1:
         schedule.run_pending()
-        await asyncio.sleep(1)
-
-
-"""async def count():
-    print("One")
-    await asyncio.sleep(1)
-    print("Two")
-
-async def main():
-    await asyncio.gather(count(), count(), count())
-
-if __name__ == "__main__":
-    import time
-    s = time.perf_counter()
-    asyncio.run(main())
-    elapsed = time.perf_counter() - s
-    print(f"{__file__} executed in {elapsed:0.2f} seconds.")"""
+        time.sleep(1)

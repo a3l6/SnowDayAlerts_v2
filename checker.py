@@ -7,4 +7,9 @@ def scraper():
     
 def check(zone):
     response = scraper()
-    return response[zone.title()]["status"]
+    if response[zone.title()]["status"] == "none":
+        return f"🟩All busses running in the {zone.title()} zone"
+    elif response[zone.title()]["status"] == "some":
+        return f"🟨There are some cancellations in the {zone.title()} zone"
+    elif response[zone.title()]["status"] == "all":
+        return f"🛑All of the busses are cancelled in the {zone.title()} zone"
