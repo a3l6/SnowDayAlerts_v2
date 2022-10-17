@@ -8,9 +8,9 @@ import asyncio
 #asyncio.run(messaging.main())
 
 app = Flask(__name__)
-#app.secret_key = os.environ.get("FLASK_SECRET_KEY")
-with open("C:/Users/707011/Desktop/secret_key.txt") as f:
-  app.secret_key = f.read()
+app.secret_key = os.environ.get("FLASK_SECRET_KEY")
+#with open("C:/Users/707011/Desktop/secret_key.txt") as f:
+#  app.secret_key = f.read()
 app.permanent_session_lifetime = timedelta(days=30)
 
 @app.route('/')
