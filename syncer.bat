@@ -11,7 +11,6 @@ IF "%PARAM%" == "--save" (
     IF "%ARG%" == "-h" (
         git fetch --all
         git reset --hard origin/main
-        call .\venv\Scripts\activate.bat
     )
 )
 echo %PARAM%
