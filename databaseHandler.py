@@ -1,4 +1,3 @@
-from xml.etree.ElementInclude import include
 import pymongo
 import os
 import bcrypt
@@ -6,11 +5,11 @@ import string
 
 # connect to mongo cluster 
 mongopass = os.environ.get("MONGO_SNOW_DAY_PASSWORD")  
-#with open("C:/Important Keys/mongouri.txt") as f: 
-#    cluster = pymongo.MongoClient(f.read(), 27017)
-client = pymongo.MongoClient("localhost", 27017)
-db = client.local
-#db = cluster["usercluster"]
+with open("C:/Important Keys/mongouri.txt") as f: 
+    cluster = pymongo.MongoClient(f.read(), 27017)
+#client = pymongo.MongoClient("localhost", 27017)
+#db = client.local
+db = cluster["usercluster"]
 collection = db["users"]
 phonecoll = db["phonenums"]
 
