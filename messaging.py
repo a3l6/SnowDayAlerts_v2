@@ -20,7 +20,6 @@ client = Client(acc_sid, acc_auth)
 def sendMessages():
     usersinfo = databaseHandler.zoneanduser()
     for user in usersinfo:
-        print(user)
         message = client.messages.create(
                                 body= check(user["zone"]),
                                 from_=twilionum,

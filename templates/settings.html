@@ -55,44 +55,51 @@
               <div class="tab-pane active" id="profile">
                 <h6>YOUR PROFILE INFORMATION</h6>
                 <hr>
-                <form>
-                  <div class="form-group">
-                    <label for="fullName">First Name</label>
-                    <input type="text" class="form-control" id="fullName" aria-describedby="fullNameHelp" placeholder="Enter your fullname" value="{{ user['name'] }}">
-                    <small id="fullNameHelp" class="form-text text-muted">Your name may appear around here where you are mentioned. You can change it at any time.</small>
-                  </div>
-                  <div class="form-group">
-                    <label for="zone">Zone</label>
-                    <input class="form-control" id="zone" placeholder="North, South, Central, West, Muskoka">
-                  </div>
-                  <div class="form-group small text-muted">
-                    All of the fields on this page are optional and can be deleted at any time, and by filling them out, you're giving us consent to share this data wherever your user profile appears.
-                  </div>
-                  <button type="button" class="btn btn-primary">Update Profile</button>
-                  <button type="reset" class="btn btn-light">Reset Changes</button>
+
+                <form action="#" method="post">
+
+                  <form>
+                    <div class="form-group">
+                      <label for="fullName">First Name</label>
+                      <input type="text" name="name" class="form-control" id="fullName" aria-describedby="fullNameHelp" placeholder="Enter your first name" value="{{ user['name'] }}">
+                      <small id="fullNameHelp" class="form-text text-muted">Your name may appear around here where you are mentioned. You can change it at any time.</small>
+                    </div>
+                    <div class="form-group">
+                      <label for="zone">Zone</label>
+                      <input class="form-control" id="zone" placeholder="North, South, Central, West, Muskoka">
+                    </div>
+                    <div class="form-group">
+                      <label for="Phone">Phone Number</label>
+                      <input type="text" class="form-control" id="phone" aria-describedby="usernameHelp" placeholder="Enter your phone number" value="{{ user['phone'] }}">
+                      <small id="usernameHelp" class="form-text text-muted">After changing your phone number, your old number becomes available for anyone else to claim.</small>
+                    </div>
+                    
+                    <hr>
+                    <form>
+                      <div class="form-group">
+                        <label class="d-block">Change Password</label>
+                        <input type="text" class="form-control" placeholder="Enter your old password">
+                        <input type="text" class="form-control mt-1" placeholder="New password">
+                        <input type="text" class="form-control mt-1" placeholder="Confirm new password">
+                      </div>
+                    </form>
+                  
+                    <div class="form-group small text-muted">
+                      All of the fields on this page are optional and can be deleted at any time, and by filling them out, you're giving us consent to share this data wherever your user profile appears.
+                    </div>
+                    
+                      <button class="btn btn-primary">Update Profile</button>
+                      <a href="{{ url_for('.settings', number=user['phone']) }}" type="reset" class="btn btn-light">Reset Changes</a>
+                    </form>
+
                 </form>
+
               </div>
               <div class="tab-pane" id="account">
                 <h6>ACCOUNT SETTINGS</h6>
                 <hr>
                 <form>
-                  <div class="form-group">
-                    <label for="Phone">Phone Number</label>
-                    <input type="text" class="form-control" id="phone" aria-describedby="usernameHelp" placeholder="Enter your phone number" value="{{ user['phone'] }}">
-                    <small id="usernameHelp" class="form-text text-muted">After changing your phone number, your old number becomes available for anyone else to claim.</small>
-                  </div>
-                  
-                  <hr>
-                  <form>
-                    <div class="form-group">
-                      <label class="d-block">Change Password</label>
-                      <input type="text" class="form-control" placeholder="Enter your old password">
-                      <input type="text" class="form-control mt-1" placeholder="New password">
-                      <input type="text" class="form-control mt-1" placeholder="Confirm new password">
-                    </div>
-                  </form>
-                
-                  <hr>
+
                   <div class="form-group">
                     <a class="d-block text-danger">Delete Account</a>
                     <p class="text-muted font-size-sm">Once you delete your account, there is no going back. Please be certain.</p>

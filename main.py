@@ -37,7 +37,6 @@ def login():
       if rememberMe != None:  # var rememberMe returns either "remember" when its True or None when its False
         session.permanent = True
       response = databaseHandler.getuser(session["phone"], includepass=False)
-      print(response)
       for key in response:
         session[key] = response[key]
       flash("Successful Login!")
@@ -86,14 +85,18 @@ def logout():
   # return home
   return redirect(url_for("home"))
 
-@app.route("/settings/<number>")
+@app.route("/settings/<number>", methods=["POST", "GET"])
 def settings(number):
-  try:
-    user = databaseHandler.getuser(number, includepass=False)
-    print(user)
-    return render_template("settings.html", user=user)
-  except TypeError as e:
-    return e
+  if request.method == "POST":
+    name = request.form["name"]
+    print(name)
+    return redirect(url_for("home"))
+  else:
+    try:
+      user = databaseHandler.getuser(number, includepass=False)
+      return render_template("settings.html", user=user)
+    except TypeError as e:
+      return e
 
 @app.route("/deleteuser/<client>")
 def deleteuser(client):
