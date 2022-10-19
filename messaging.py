@@ -5,14 +5,17 @@ from checker import check
 import os
 import schedule
 
-"""with open("C:/Users/707011/Desktop/twillio_sid.txt") as f:
+with open("C:/Users/707011/Desktop/twillio_sid.txt") as f:
     acc_sid = f.read()
 with open("C:/Users/707011/Desktop/twillio_auth.txt") as f:
-    acc_auth = f.read()"""
+    acc_auth = f.read()
+with open("C:/Users/707011/Desktop/phonenum_twilio.txt") as f:
+    twilionum = f.read()
 
-acc_sid = os.environ.get("twilio_sid")
-acc_auth = os.environ.get("twilio_auth")
-twilionum = os.environ.get("twilio_num")
+
+#acc_sid = os.environ.get("twilio_sid")
+#acc_auth = os.environ.get("twilio_auth")
+#twilionum = os.environ.get("twilio_num")
 
 client = Client(acc_sid, acc_auth)
 

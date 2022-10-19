@@ -4,12 +4,12 @@ import bcrypt
 import string
 
 # connect to mongo cluster 
-mongopass = os.environ.get("MONGO_SNOW_DAY_PASSWORD")  
-with open("C:/Important Keys/mongouri.txt") as f: 
-    cluster = pymongo.MongoClient(f.read(), 27017)
-#client = pymongo.MongoClient("localhost", 27017)
-#db = client.local
-db = cluster["usercluster"]
+#mongopass = os.environ.get("MONGO_SNOW_DAY_PASSWORD")  
+#with open("C:/Important Keys/mongouri.txt") as f: 
+#cluster = pymongo.MongoClient(f.read(), 27017)
+client = pymongo.MongoClient("localhost", 27017)
+db = client.local
+#db = cluster["usercluster"]
 collection = db["users"]
 phonecoll = db["phonenums"]
 
@@ -75,3 +75,8 @@ def zoneanduser():
 
 def delete(toRemove):
     collection.find_one_and_delete({'phone': toRemove})
+
+def changeinformation(phone: str, zone: str, name: str, session_phone: str):
+    collection.update_many({"phone": session_phone}, {"$set": {"zone": zone}})
+    collection.update_many({"phone": session_phone}, {"$set": {"name": name.title()}})
+    collection.update_many({"phone": session_phone}, {"$set": {"phone": phone}})

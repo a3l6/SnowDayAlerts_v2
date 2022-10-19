@@ -4,12 +4,12 @@ from datetime import timedelta
 import databaseHandler
 import messaging
 import threading
-
+import string
 
 app = Flask(__name__)
-app.secret_key = os.environ.get("FLASK_SECRET_KEY")
-#with open("C:/Users/707011/Desktop/secret_key.txt") as f:
-#  app.secret_key = f.read()
+#app.secret_key = os.environ.get("FLASK_SECRET_KEY")
+with open("C:/Users/707011/Desktop/secret_key.txt") as f:
+  app.secret_key = f.read()
 app.permanent_session_lifetime = timedelta(days=30)
 
 @app.route('/')
@@ -89,14 +89,46 @@ def logout():
 def settings(number):
   if request.method == "POST":
     name = request.form["name"]
-    print(name)
-    return redirect(url_for("home"))
+    zone = request.form["zone"]
+    phonenumber = request.form["phone"]
+
+    for i in name:
+        if i not in string.printable:
+            flash("Invalid Name!")
+            render_template("settings.html", user=user)
+    if zone.lower() not in ["north", "central", "muskoka", "south", "west"]:
+        flash("Invalid Zone!")
+        render_template("settings.html", user=user)
+    if len(phonenumber) != 10:
+        flash("Phone Number Too Long!")
+        render_template("settings.html", user=user)
+    else:
+      for i in phonenumber:
+        if i not in "0123456789":
+          flash("Only Include Numbers!")
+          render_template("settings.html", user=user)
+    
+
+
+
+    databaseHandler.changeinformation(phonenumber, zone, name, session_phone=session["phone"])
+    session["phone"] = phonenumber
+    session["zone"] = zone
+    session["name"] = name
+    #number = phonenumber
+    user = databaseHandler.getuser(session["phone"], includepass=False)
+    return redirect(url_for("settingsredirect", number=session["phone"]))
   else:
     try:
       user = databaseHandler.getuser(number, includepass=False)
       return render_template("settings.html", user=user)
     except TypeError as e:
       return e
+
+@app.route("/redirect/<number>")
+def settingsredirect(number):
+  flash("Successfully Changed Account Details!")
+  return redirect(url_for("settings", number=number))
 
 @app.route("/deleteuser/<client>")
 def deleteuser(client):

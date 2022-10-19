@@ -56,7 +56,7 @@
                 <h6>YOUR PROFILE INFORMATION</h6>
                 <hr>
 
-                <form action="#" method="post">
+                <form action="" method="post">
 
                   <form>
                     <div class="form-group">
@@ -66,24 +66,21 @@
                     </div>
                     <div class="form-group">
                       <label for="zone">Zone</label>
-                      <input class="form-control" id="zone" placeholder="North, South, Central, West, Muskoka">
+                      <input name="zone" class="form-control" id="zone" placeholder="North, South, Central, West, Muskoka" value="{{ user['zone'].title() }}">
                     </div>
                     <div class="form-group">
                       <label for="Phone">Phone Number</label>
-                      <input type="text" class="form-control" id="phone" aria-describedby="usernameHelp" placeholder="Enter your phone number" value="{{ user['phone'] }}">
+                      <input type="text" name= "phone" class="form-control" id="phone" aria-describedby="usernameHelp" placeholder="Enter your phone number" value="{{ user['phone'] }}">
                       <small id="usernameHelp" class="form-text text-muted">After changing your phone number, your old number becomes available for anyone else to claim.</small>
                     </div>
-                    
+                    {% with messages = get_flashed_messages() %}
+                      {% if messages %}
+                        {% for msg in messages %}
+                          <p style=" color: red;"><b>{{msg}}</b></p>
+                        {% endfor %}
+                      {% endif %}
+                    {% endwith%}
                     <hr>
-                    <form>
-                      <div class="form-group">
-                        <label class="d-block">Change Password</label>
-                        <input type="text" class="form-control" placeholder="Enter your old password">
-                        <input type="text" class="form-control mt-1" placeholder="New password">
-                        <input type="text" class="form-control mt-1" placeholder="Confirm new password">
-                      </div>
-                    </form>
-                  
                     <div class="form-group small text-muted">
                       All of the fields on this page are optional and can be deleted at any time, and by filling them out, you're giving us consent to share this data wherever your user profile appears.
                     </div>
@@ -91,6 +88,7 @@
                       <button class="btn btn-primary">Update Profile</button>
                       <a href="{{ url_for('.settings', number=user['phone']) }}" type="reset" class="btn btn-light">Reset Changes</a>
                     </form>
+                    
 
                 </form>
 
