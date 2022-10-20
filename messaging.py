@@ -40,6 +40,7 @@ def main():
 def send_admin_message(message: str):
     usersinfo = databaseHandler.zoneanduser()
     print(usersinfo)
+    print(message)
     for user in usersinfo:
         if user["phone"] != "admin":
             message = client.messages.create(
