@@ -23,11 +23,12 @@ client = Client(acc_sid, acc_auth)
 def sendMessages():
     usersinfo = databaseHandler.zoneanduser()
     for user in usersinfo:
-        message = client.messages.create(
-                                body= check(user["zone"]),
-                                from_=twilionum,
-                                to=user["phone"]
-                            )
+        if user["phone"] != "admin":
+            message = client.messages.create(
+                                    body= check(user["zone"]),
+                                    from_=twilionum,
+                                    to=user["phone"]
+                                )
 
 def main():
     schedule.every().day.at("06:30").do(sendMessages)
@@ -35,3 +36,14 @@ def main():
     while 1:
         schedule.run_pending()
         time.sleep(2)
+
+def send_admin_message(message: str):
+    usersinfo = databaseHandler.zoneanduser()
+    print(usersinfo)
+    for user in usersinfo:
+        if user["phone"] != "admin":
+            message = client.messages.create(
+                                            body= message,
+                                            from_=twilionum,
+                                            to=user["phone"]
+                                        )

@@ -130,6 +130,22 @@ def settingsredirect(number):
   flash("Successfully Changed Account Details!")
   return redirect(url_for("settings", number=number))
 
+
+@app.route("/admin/console", methods=["POST", "GET"])
+def admin():
+  if request.method == "POST":
+    message = request.form["admininput"]
+    messaging.send_admin_message(message)
+    return render_template("admin.html")
+  else:
+    try:
+      if session["phone"] == "admin":
+        return render_template("admin.html")
+      else:
+        return "<h1>NOT LOGGED IN AS ADMIN</h1>"
+    except KeyError:
+      return "<h1>NOT LOGGED IN AS ADMIN</h1>"
+  
 @app.route("/deleteuser/<client>")
 def deleteuser(client):
   try:
@@ -144,7 +160,7 @@ def deleteuser(client):
     return "Cannot Delete Other Users Profile!"
 
 if __name__ == "__main__":
-  thread1 = threading.Thread(target=messaging.main)
-  thread1.start()
-  app.run(debug=True, use_reloader=False)
-  thread1.join()
+  #thread1 = threading.Thread(target=messaging.main)
+  #thread1.start()
+  app.run(debug=True) #use_reloader=False)
+  #thread1.join()dfd
