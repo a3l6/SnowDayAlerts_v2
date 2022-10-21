@@ -136,6 +136,8 @@ def admin():
   if request.method == "POST":
     message = request.form["admininput"]
     messaging.send_admin_message(message)
+    flash("Message Sent!")
+    flash(f"Message: {message}")
     return render_template("admin.html")
   else:
     try:

@@ -43,7 +43,7 @@ def send_admin_message(message: str):
     print(message)
     for user in usersinfo:
         if user["phone"] != "admin":
-            message = client.messages.create(
+            twilliomessage = client.messages.create(
                                             body= message,
                                             from_=twilionum,
                                             to=user["phone"]
