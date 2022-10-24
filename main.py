@@ -158,7 +158,7 @@ def deleteuser(client):
     return "Cannot Delete Other Users Profile!"
 
 if __name__ == "__main__":
-  #thread1 = threading.Thread(target=messaging.main)
-  #thread1.start()
+  thread1 = threading.Thread(target=messaging.main)
+  thread1.start()
   app.run(debug=True) #use_reloader=False)
-  #thread1.join()dfd
+  thread1.join()
